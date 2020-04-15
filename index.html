@@ -1,159 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>COVID-19 Novelty Estimator</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<!-- region: {
-        name: "Africa",
-        avgAge: 19.7,
-        avgDailyIncomeInUSD: 5,
-        avgDailyIncomePopulation: 0.71
-        },
-        periodType: "days",
-        timeToElapse: 58,
-        reportedCases: 674,
-        population: 66622705,
-        totalHospitalBeds: 1380614 -->
-	<body>
-		<header>
-			<h1>COVID-19 Estimator</h1>
-			<p>A program to estimate the effect of the COVID-19 pandemic on healthcare and economy. #BuildForSDG challenge</p>
-		</header>
-		<form action="">
-			<fieldset>
-				<legend>Region Information</legend>
-				<label>
-					Region name
-					<input type="text" data-region-name required />
-				</label>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" >
+        <meta name="description" content="Covidator estimates the possible escalation of COVID-19 cases over a given period of time according to the African region data">
+        <title>COVID-19 estimator</title>
 
-				<!-- input for population data has attribute of data-population -->
-				<label>
-					Population
-					<input type="text" data-population required />
-				</label>
+        <!-- <link 
+            href="static/bootstrap.css" 
+            rel="stylesheet"
+        /> -->
+        <link rel="stylesheet" href="index.css">
+    </head>
 
-				<label>
-					Average Age
-					<input type="text" data-avg-age required />
-				</label>
 
-				<label>
-					Average Daily Income in USD
-					<input type="text" data-avg-daily-income-usd required />
-				</label>
+        <main aria-label="Main Section" class="container container-md-fluid jumbotron">
+            <form aria-label="Form to submit input data for impact of COVID-nineteen estimation">
+                <fieldset>
+                    <legend class="">COVID-19 ESTIMATOR</legend>
+                    <div aria-label="Population input field area" class="col-4">
+                        <label for="population">POPULATION</label>
+                        <input type="number" name="population" aria-label="Population" data-population required/>
+                    </div>
+                    
+                    <div aria-label="Reported Cases input field area" class="col-4">
+                        <label for="reportedCases">REPORTED CASES</label>
+                        <input type="number" name="reportedCases" aria-label="Reported Cases" data-reported-cases required/>
+                    </div>
+                    
 
-				<label>
-					Average Daily Income percentage per population
-					<input type="text" data-avg-daily-income-population required />
-				</label>
-			</fieldset>
+                    <div aria-label="Time to elapse selection area in days, weeks or months" class="estimated-time form-row">
+                        <div aria-label="Numeric input field for time" class=" col-3">
+                            <label for="time-to-elapse">TIME TO ELAPSE</label>
+                            <input type="number" name="time-to-elapse" aria-label="Time To Elapse" data-time-to-elapse required/>
+                        </div>
+                        <span aria-label="Selecting the period type in days, weeks or months" class=" col-1">
+                            <label for="period-type">DURATION</label>
+                            <select aria-label="List of period options" name="period-type" validation-message="Select only one option" data-period-type>
+                                <option value="days" default>days</option>
+                                <option value="weeks">weeks</option>
+                                <option value="months">months</option>
+                            </select>
+                        </span>
+                    </div>
+                    
+                    <div aria-label="Total beds available input area" class="col-4">
+                        <label for="total-hospital-beds">TOTAL BEDS AVAILABLE</label>
+                        <input type="number" name="total-hospital-beds" aria-label="Total Hospital Beds" data-total-hospital-beds required>
+                    </div>
 
-			<fieldset>
-				<legend>Current Case</legend>
-				<!-- input for periodType data has attribute of data-period-type and should be a SELECT -->
-				<div class="d-grid two-grid">
-					<!-- input for timeToElapse data has attribute of data-time-to-elapse -->
-					<label>
-						Time to elapse
-						<input type="text" data-time-to-elapse required />
-					</label>
-					<label>
-						Time Type
-						<select name="periodType" data-period-type required>
-							<!-- field with values limited to days, weeks, or months -->
-							<option value="days">Days</option>
-							<option value="weeks">Weeks</option>
-							<option value="months">Months</option>
-						</select>
-					</label>
-				</div>
+                    <div class="submit"><button aria-label="For form submission to" type="submit" class="btn" data-go-estimate>GET RESULT</button></div>
+                </fieldset>
 
-				<!-- input for reportedCases data has attribute of data-reported-cases -->
-				<label>
-					Reported Cases
-					<input type="text" data-reported-cases required />
-				</label>
+            </form>
 
-				<!-- input for totalHospitalBeds data has attribute of data-total-hospital-beds -->
-				<label>
-					Total Hospital Beds
-					<input type="text" data-total-hospital-beds required />
-				</label>
-			</fieldset>
-			<!-- the button for submitting the data from the UI should have an attribute of data-goestimate. -->
-			<button type="submit" data-goestimate>Calculate</button>
-		</form>
-		<article>
-			<h3 text align="center">ESTIMATION</h3>
-			<section id="impact">
-				<h5 text align="center">Impact</h5>
-				<div class="d-grid four-grid">
-					<label>
-						Currently Infected
-						<input type="text" data-impact-currently-infected disabled />
-					</label>
+            <section id="results" aria-label="Results After Estimation">
 
-					<label>
-						Number of Infections by Requested Time
-						<input type="text" data-impact-infection disabled />
-					</label>
-					<label>
-						Number of Severe Cases by Requested Time
-						<input type="text" data-impact-severe-cases disabled />
-					</label>
-					<label>
-						Available Beds by Requested Time
-						<input type="text" data-impact-available-beds disabled />
-					</label>
-					<label>
-						ICU cases by Requested Time
-						<input type="text" data-impact-icu-cases disabled />
-					</label>
-					<label> Ventilator Cases by Requested Time <input type="text" data-impact-ventilator-cases disabled /> </label>
-					<label>
-						Amount lost by Requested Time(USD)
-						<input type="text" data-impact-dollar-inFlight disabled />
-					</label>
-				</div>
-			</section>
+            </section>
 
-			<section id="severe-impact">
-				<h5 text align="">Severe Impact (A worst case scenario)</h5>
-				<div class="d-grid four-grid">
-					<label>
-						Currently Infected
-						<input type="text" data-severe-impact-currently-infected disabled />
-					</label>
+        </main>
 
-					<label>
-						Number of Infections by Requested Time
-						<input type="text" data-severe-impact-infection disabled />
-					</label>
-					<label>
-						Number of Severe Cases by Requested Time
-						<input type="text" data-severe-impact-severe-cases disabled />
-					</label>
-					<label>
-						Available Beds by Requested Time
-						<input type="text" data-severe-impact-available-beds disabled />
-					</label>
-					<label>
-						ICU cases by Requested Time
-						<input type="text" data-severe-impact-icu-cases disabled />
-					</label>
-					<label> Ventilator Cases by Requested Time <input type="text" data-severe-impact-ventilator-cases disabled /> </label>
-					<label>
-						Amount lost by Requested Time(USD)
-						<input type="text" data-severe-impact-dollar-inFlight disabled />
-					</label>
-				</div>
-			</section>
-		</article>
-
-		<script src="./script.js" type="module"></script>
-	</body>
+        <script src="estimator.js"></script>
+    </body>
 </html>
